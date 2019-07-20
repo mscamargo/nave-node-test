@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('users', {
+    queryInterface.createTable('posts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -8,24 +8,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
 
-      username: {
+      text: {
         allowNull: false,
-        unique: true,
-        type: Sequelize.STRING
+        type: Sequelize.STRING(140)
       },
 
-      email: {
+      user_id: {
         allowNull: false,
-        unique: true,
-        type: Sequelize.STRING
-      },
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER,
 
-      password: {
-        allowNull: false,
-        type: Sequelize.STRING
+        references: {
+          model: 'users',
+          key: 'id'
+        }
       },
-
-      title: Sequelize.STRING,
 
       created_at: {
         allowNull: false,
@@ -38,5 +35,5 @@ module.exports = {
       }
     }),
 
-  down: queryInterface => queryInterface.dropTable('users')
+  down: queryInterface => queryInterface.dropTable('posts')
 }
