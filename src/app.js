@@ -1,9 +1,30 @@
 const express = require('express')
 
-const app = express()
+const routes = require('./routes')
+const exceptionHandlers = require('./utils/exception-handlers')
 
-app.use(express.json())
+class App {
+  constructor () {
+    this.express = express()
 
-app.use(require('./routes'))
+    this.middlewares()
+    this.routes()
+    this.exceptions()
+  }
 
-module.exports = app
+  middlewares () {
+    this.express.use(express.json())
+  }
+
+  routes () {
+    this.express.use(routes)
+  }
+
+  exceptions () {
+    Object.keys(exceptionHandlers).forEach(handler =>
+      this.express.use(exceptionHandlers[handler])
+    )
+  }
+}
+
+module.exports = new App().express
