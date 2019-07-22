@@ -13,5 +13,7 @@ module.exports = {
   DB_PORT: process.env.DB_PORT || '5432',
   DB_USER: process.env.DB_USER || 'postgres',
   DB_PASS: process.env.DB_PASS || '',
-  DB_NAME: process.env.DB_NAME || ''
+  DB_NAME: process.env.DB_NAME || '',
+
+  IS_DEV: process.env.NODE_ENV !== 'production'
 }
