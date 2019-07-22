@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Post, { as: 'posts' })
   }
 
+  User.prototype.comparePasswordHash = async function (password) {
+    return bcrypt.compare(password, this.password)
+  }
+
   User.prototype.toJSON = function () {
     const values = Object.assign({}, this.get())
 
