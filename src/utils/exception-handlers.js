@@ -1,4 +1,6 @@
 const { ValidationError } = require('express-validation')
+const env = require('../config/env')
+const ApplicationError = require('../exceptions/ApplicationError')
 
 module.exports = {
   sequelizeValidationErrorHandler: (error, request, response, next) => {
@@ -28,5 +30,19 @@ module.exports = {
     }))
 
     return response.status(error.status).json({ errors })
+  },
+
+  applicationErrors: (error, request, response, next) => {
+    if (!(error instanceof ApplicationError)) {
+      return next()
+    }
+
+    const { status, message, stack } = error
+
+    if (env.IS_DEV) {
+      console.log(stack)
+    }
+
+    return response.status(status).json({ message })
   }
 }
