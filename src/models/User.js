@@ -16,14 +16,13 @@ module.exports = (sequelize, DataTypes) => {
         msg: 'E-mail is already in use'
       }
     },
-    password: DataTypes.VIRTUAL,
-    password_hash: DataTypes.STRING,
+    password: DataTypes.STRING,
     title: DataTypes.STRING
   })
 
   User.addHook('beforeSave', async user => {
-    if (user.password) {
-      user.password_hash = await bcrypt.hash(user.password, 10)
+    if (user.changed('password')) {
+      user.password = await bcrypt.hash(user.password, 10)
     }
   })
 
