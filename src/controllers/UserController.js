@@ -1,5 +1,6 @@
 const { User } = require('../models')
 const UserNotFoundError = require('../exceptions/UserNotFoundError')
+const ForbiddenError = require('../exceptions/ForbiddenError')
 
 class UserController {
   async index (_, response) {
@@ -24,7 +25,11 @@ class UserController {
     return response.json(user)
   }
 
-  async update ({ params, body }, response) {
+  async update ({ params, body, auth }, response) {
+    if (auth.user.id !== params.id) {
+      throw new ForbiddenError()
+    }
+
     const user = await User.findByPk(params.id)
 
     if (!user) {
@@ -36,7 +41,10 @@ class UserController {
     return response.json(user)
   }
 
-  async destroy ({ params }, response) {
+  async destroy ({ params, auth }, response) {
+    if (auth.user.id !== params.id) {
+      throw new ForbiddenError()
+    }
     const user = await User.findByPk(params.id)
 
     if (!user) {
