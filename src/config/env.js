@@ -9,6 +9,7 @@ module.exports = {
 
   SECRET_KEY: process.env.SECRET_KEY || 'nave_node_test',
 
+  DATABASE_URL: process.env.DATABASE_URL,
   DB_DIALECT: process.env.DB_DIALECT || 'sqlite',
   DB_STORAGE: process.env.DB_STORAGE || 'database.sqlite',
   DB_HOST: process.env.DB_HOST,

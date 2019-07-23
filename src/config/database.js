@@ -1,6 +1,7 @@
 const env = require('./env')
 
 module.exports = {
+  url: env.DATABASE_URL,
   dialect: env.DB_DIALECT,
   storage: env.DB_STORAGE, // if the dialect is sqlite
   host: env.DB_HOST,

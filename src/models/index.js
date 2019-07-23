@@ -7,12 +7,20 @@ const basename = path.basename(__filename)
 const config = require('../config/database')
 const db = {}
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
-)
+let sequelize
+
+if (config.url) {
+  sequelize = new Sequelize(config.url, config)
+} else if (config.dialect === 'sqlite') {
+  sequelize = new Sequelize(config)
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  )
+}
 
 fs.readdirSync(__dirname)
   .filter(file => {
