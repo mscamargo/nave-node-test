@@ -4,7 +4,7 @@ const ForbiddenError = require('../exceptions/ForbiddenError')
 
 class PostController {
   async index (_, response) {
-    const posts = await Post.findAll({ order: [['created_at', 'DESC']] })
+    const posts = await Post.findAll({ order: [['created_at', 'DESC']], include: ['owner'] })
 
     return response.json(posts)
   }
