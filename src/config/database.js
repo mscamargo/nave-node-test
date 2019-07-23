@@ -9,6 +9,7 @@ module.exports = {
   password: env.DB_PASS,
   database: env.DB_NAME,
   operatorAliases: false,
+  logging: env.IS_TEST ? false : console.log,
   define: {
     timestamps: true,
     underscored: true,

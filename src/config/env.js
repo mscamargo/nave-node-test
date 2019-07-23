@@ -1,5 +1,9 @@
 require('dotenv').config()
 
+const IS_TEST = process.env.NODE_ENV === 'test'
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+const IS_DEV = !IS_PRODUCTION && !IS_TEST
+
 module.exports = {
   PORT: process.env.PORT || 3000,
 
@@ -13,5 +17,7 @@ module.exports = {
   DB_PASS: process.env.DB_PASS,
   DB_NAME: process.env.DB_NAME,
 
-  IS_DEV: process.env.NODE_ENV !== 'production'
+  IS_TEST,
+  IS_PRODUCTION,
+  IS_DEV
 }
