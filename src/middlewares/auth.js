@@ -1,20 +1,32 @@
 const UnauthorizedError = require('../exceptions/UnauthorizedError')
 const jwt = require('../utils/jwt')
+const { User } = require('../models')
 
-module.exports = (request, response, next) => {
+module.exports = async (request, response, next) => {
   const authHeader = request.headers.authorization
 
-  if (!authHeader) {
-    throw new UnauthorizedError('Token not provided')
+  try {
+    if (!authHeader) {
+      throw new UnauthorizedError('Token not provided')
+    }
+
+    const [, token] = authHeader.split(' ')
+
+    if (!jwt.verify(token)) {
+      throw new UnauthorizedError('Ivalid or expired token')
+    }
+
+    const { id } = jwt.decode(token)
+    const user = await User.findByPk(id)
+
+    if (!user) {
+      throw new UnauthorizedError()
+    }
+
+    request.auth = { user }
+
+    return next()
+  } catch (e) {
+    next(e)
   }
-
-  const [, token] = authHeader.split(' ')
-
-  if (!jwt.verify(token)) {
-    throw new UnauthorizedError('Ivalid or expired token')
-  }
-
-  request.auth = { user: { id: jwt.decode(token).id } }
-
-  return next()
 }
