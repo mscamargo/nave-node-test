@@ -8,6 +8,7 @@ const PostValidator = require('./validators/PostValidator')
 const UserController = require('./controllers/UserController')
 const AuthenticationController = require('./controllers/AuthenticationController')
 const PostController = require('./controllers/PostController')
+const CommentController = require('./controllers/CommentController')
 
 const authMiddleware = require('./middlewares/auth')
 
@@ -35,5 +36,15 @@ routes
   .get(asyncWrap(PostController.show))
   .put(PostValidator.update(), asyncWrap(PostController.update))
   .delete(asyncWrap(PostController.destroy))
+
+routes
+  .route('/posts/:post_id/comments')
+  .get(asyncWrap(CommentController.index))
+  .post(asyncWrap(CommentController.store))
+
+routes
+  .route('/posts/:post_id/comments/:id')
+  .put(asyncWrap(CommentController.update))
+  .delete(asyncWrap(CommentController.destroy))
 
 module.exports = routes
