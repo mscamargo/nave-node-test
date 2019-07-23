@@ -24,7 +24,7 @@ routes
   .route('/users/:id')
   .get(asyncWrap(UserController.show))
   .put(UserValidator.update(), asyncWrap(UserController.update))
-  .delete(asyncWrap(UserController.destroy))
+  .delete(UserValidator.delete(), asyncWrap(UserController.destroy))
 
 routes
   .route('/posts')

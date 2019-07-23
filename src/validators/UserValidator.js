@@ -30,6 +30,14 @@ class UserValidator {
       }
     })
   }
+
+  delete () {
+    return validate({
+      params: {
+        id: Joi.number().required()
+      }
+    })
+  }
 }
 
 module.exports = new UserValidator()
