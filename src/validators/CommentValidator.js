@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const validate = require('express-validation')
 
-class PostValidator {
+class CommentValidator {
   store () {
     return validate({
       body: {
@@ -36,4 +36,4 @@ class PostValidator {
   }
 }
 
-module.exports = new PostValidator()
+module.exports = new CommentValidator()
