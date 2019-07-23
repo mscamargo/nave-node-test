@@ -1,0 +1,64 @@
+const { Post } = require('../models')
+const NotFoundError = require('../exceptions/NotFoundError')
+const ForbiddenError = require('../exceptions/ForbiddenError')
+
+class PostController {
+  async index (_, response) {
+    const posts = await Post.findAll()
+
+    return response.json(posts)
+  }
+
+  async store ({ body, auth }, response) {
+    const post = await Post.create({ ...body, user_id: auth.user.id })
+
+    return response.status(201).json(post)
+  }
+
+  async show ({ params }, response) {
+    const post = await Post.findOne({
+      where: { id: params.id },
+      include: 'owner'
+    })
+
+    if (!post) {
+      throw new NotFoundError()
+    }
+
+    return response.json(post)
+  }
+
+  async update ({ params, body, auth }, response) {
+    const post = await Post.findByPk(params.id)
+
+    if (!post) {
+      throw new NotFoundError()
+    }
+
+    if (auth.user.id !== post.user_id) {
+      throw new ForbiddenError()
+    }
+
+    await post.update(body)
+
+    return response.json(post)
+  }
+
+  async destroy ({ params, auth }, response) {
+    const post = await Post.findByPk(params.id)
+
+    if (!post) {
+      throw new NotFoundError()
+    }
+
+    if (auth.user.id !== post.user_id) {
+      throw new ForbiddenError()
+    }
+
+    await post.destroy()
+
+    return response.status(204).json()
+  }
+}
+
+module.exports = new PostController()
