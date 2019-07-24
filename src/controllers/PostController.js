@@ -18,7 +18,7 @@ class PostController {
   async show ({ params }, response) {
     const post = await Post.findOne({
       where: { id: params.id },
-      include: 'owner'
+      include: ['owner', 'comments']
     })
 
     if (!post) {
