@@ -5,7 +5,7 @@ const ForbiddenError = require('../exceptions/ForbiddenError')
 class CommentController {
   async index ({ params }, response) {
     const { post_id } = params
-    const comments = await Comment.findAll({ where: { post_id } })
+    const comments = await Comment.findAll({ where: { post_id }, include: 'owner' })
 
     return response.json(comments)
   }
