@@ -11,8 +11,6 @@ let sequelize
 
 if (config.url) {
   sequelize = new Sequelize(config.url, config)
-} else if (config.dialect === 'sqlite') {
-  sequelize = new Sequelize(config)
 } else {
   sequelize = new Sequelize(
     config.database,

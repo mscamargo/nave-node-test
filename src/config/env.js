@@ -9,14 +9,8 @@ module.exports = {
 
   SECRET_KEY: process.env.SECRET_KEY || 'nave_node_test',
 
-  DATABASE_URL: process.env.DATABASE_URL,
-  DB_DIALECT: process.env.DB_DIALECT || 'sqlite',
+  DATABASE_URL: process.env.DATABASE_URL || null,
   DB_STORAGE: process.env.DB_STORAGE || 'database.sqlite',
-  DB_HOST: process.env.DB_HOST,
-  DB_PORT: process.env.DB_PORT,
-  DB_USER: process.env.DB_USER,
-  DB_PASS: process.env.DB_PASS,
-  DB_NAME: process.env.DB_NAME,
 
   IS_TEST,
   IS_PRODUCTION,
